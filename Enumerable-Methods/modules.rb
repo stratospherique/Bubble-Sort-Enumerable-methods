@@ -89,6 +89,54 @@ module Enumerable
         puts res 
         return res     
     end
+
+    def my_count(&block)
+        res=0
+        if block_given?
+            my_each do |element| 
+        
+                d= yield element 
+            res+=1 if d 
+    
+            end
+        else 
+            my_each do |element|
+            res+=1  
+            end 
+        end
+        
+        return res
+    end
+
+    def my_map (&block)
+        res=[]
+        
+        if block_given?
+            my_each do |element|
+             d= yield element
+                res << d
+            end
+        else
+            return nil 
+        end
+        return res if res.size>0  
+         
+    end
+
+    def my_inject (ins=0,&block)
+        total=0
+        if block_given?
+            my_each do |element|
+             d= yield ins,element
+                total+=d
+            end
+        else
+            return nil 
+        end
+        return total
+         
+    end
+    
 end
 
 #p [1,2,3,6].my_each {|x| x+=1}
@@ -96,4 +144,5 @@ end
 {"cat"=>0, "dog"=>1, "wombat"=>2}.my_each_with_index{|i,item| p item}
 [1,2,3,6].my_select {|x| x<6}
 [1,5,3,9].my_none {|x| x>6}
-p [1,5,3,8].none? {|x| x>6}
+p [1,5,3,8,5,7].my_map {|x| x+1}
+p [1,5,8,7,5,2].my_inject(1){|total,item| total*item}
