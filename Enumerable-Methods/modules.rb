@@ -7,7 +7,7 @@ module Enumerable
             res << d 
     
         end
-        p res 
+        #p res 
         return res
     end
 
@@ -21,8 +21,40 @@ module Enumerable
         end
        
     end
+    def my_select(&block)
+        kr=[]
+        my_each do |element| 
+                d= yield element 
+                kr << element if d 
+        end
+       # p kr 
+        return kr    
+    end 
+    def my_all(&block)
+        res=true
+        if block_given?
+             my_select do |element| 
+                d= yield element 
+                 if d==false
+                    res=false
+                    break
+                 end 
+            end
+        else
+            my_select do |element|
+                if element.nil? || element==false
+                    res=false
+                    break
+                end
+            end
+        end
+        puts res 
+        return res     
+    end 
 end
 
-[1,2,3,6].my_each {|x| x+=1}
+#p [1,2,3,6].my_each {|x| x+=1}
 [1,2,3,6].my_each_with_index {|x,item| p item}
 {"cat"=>0, "dog"=>1, "wombat"=>2}.my_each_with_index{|i,item| p item}
+[1,2,3,6].my_select {|x| x<6}
+[1,5,3].my_all {|x| x<6}
