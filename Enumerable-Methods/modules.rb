@@ -124,39 +124,40 @@ module Enumerable
     end
 
     def my_inject (ins=1)
-        sum=0
-        mult=1
-        div=1.0
-        sub=0
-        sum_check=false 
-        div_check=false 
+        sum=ins 
+        mult=ins 
+        sub=ins 
+        sum_check=false  
         mult_check=false 
         sub_check=false
         if block_given?
-            my_each do |element|
-             d= yield ins,element
-             if (d/ins==element)
-                mult*=d
+                d=yield ins,self[0]
+            if (d/ins==self[0])
                 mult_check=true 
-             elsif (d*ins==element)
-                div/=d
-                div_check=true
-            elsif (d+ins==element)
-                sub-=d 
+            elsif (d+ins==self[0])
                 sub_check=true 
-             else
-                sum+=d
+            elsif (d-ins==self[0])
                 sum_check=true 
+            else 
+                return 0
+            end
+            my_each do |element|
+             yield ins,element
+             if mult_check
+                mult*=element 
+            elsif sub_check
+                sub-=element  
+            else sum_check
+                sum+=element
              end
                 
             end
         else
-            return nil 
+            return 0 
         end
         return sum if sum_check
         return mult if mult_check
         return sub if sub_check
-        return div if div_check
          
     end
     
@@ -168,4 +169,4 @@ p [1,2,3,6].my_each {|x| x+=1}
 [1,2,3,6].my_select {|x| x<6}
 [1,5,3,9].my_none {|x| x>6}
 p [1,5,3,8,5,7].my_map {|x| x+1}
-p [1,5,8,7,5,2].my_inject(1){|total,item| total+item}
+p [1,5,8,7,5,2].my_inject(2){|total,item| total*item}
