@@ -3,9 +3,10 @@ module Enumerable
         for i in (0...self.length)
             yield self[i]
         end
+        return self
     end
 
-    def my_each_with_index(&block)
+    def my_each_with_index(*)
         i=0
         each do |element| 
             
@@ -15,7 +16,7 @@ module Enumerable
         end
        
     end
-    def my_select(&block)
+    def my_select(*)
         kr=[]
         my_each do |element| 
                 d= yield element 
@@ -24,7 +25,7 @@ module Enumerable
        # p kr 
         return kr    
     end 
-    def my_all(&block)
+    def my_all(*)
         res=true
         if block_given?
              my_select do |element| 
@@ -45,7 +46,7 @@ module Enumerable
         puts res 
         return res     
     end
-    def my_any(&block)
+    def my_any(*)
         res=false
         if block_given?
              my_select do |element| 
@@ -67,7 +68,7 @@ module Enumerable
         return res     
     end
     
-    def my_none(&block)
+    def my_none(*)
         res=true 
         if block_given?
              my_select do |element| 
@@ -84,7 +85,7 @@ module Enumerable
         return res     
     end
 
-    def my_count(&block)
+    def my_count(*)
         res=0
         if block_given?
             my_each do |element| 
@@ -160,10 +161,10 @@ module Enumerable
 end
 
 def mulitply_els(a)
-    p a.my_inject(1){|total,item| total*item}
+    a.my_inject(1){|total,item| total*item}
 end
 
-p [1,2,3,6].my_each {|x| x+=1}
+p [1,2,3,6].my_each {|x| x+1}
 [1,2,3,6].my_each_with_index {|x,item| p item}
 {"cat"=>0, "dog"=>1, "wombat"=>2}.my_each_with_index{|i,item| p item}
 [1,2,3,6].my_select {|x| x<6}
@@ -174,4 +175,4 @@ end
 p [1,5,3,8,5,7].my_map {|x| x+1}
 p [1,5,3,8,5,7].my_map(my_proc)
 p [0,5,8,7,5,2].my_inject(0){|total,item| total+item}
-mulitply_els([2,5,8])
+p mulitply_els([2,5,8])
