@@ -18,6 +18,7 @@ end
 
 def bubble_sort_by (a)
     ch=false
+    if block_given?
     until ch 
         ch=true 
         (a.length-1).times do |i|
@@ -30,6 +31,9 @@ def bubble_sort_by (a)
             end
         end
     end 
+    else
+        bubble_sort(a)
+    end
     
     p a
 end
