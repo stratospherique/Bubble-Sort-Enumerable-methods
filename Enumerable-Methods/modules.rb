@@ -131,12 +131,12 @@ module Enumerable
         mult_check=false 
         sub_check=false
         if block_given?
-                d=yield ins,self[0]
-            if (d/ins==self[0])
-                mult_check=true 
-            elsif (d+ins==self[0])
+                d=yield ins,2
+            if (d/ins==2) 
+                mult_check=true
+            elsif (d+ins==2)
                 sub_check=true 
-            elsif (d-ins==self[0])
+            elsif (d-ins==2)
                 sum_check=true 
             else 
                 return 0
@@ -169,4 +169,4 @@ p [1,2,3,6].my_each {|x| x+=1}
 [1,2,3,6].my_select {|x| x<6}
 [1,5,3,9].my_none {|x| x>6}
 p [1,5,3,8,5,7].my_map {|x| x+1}
-p [1,5,8,7,5,2].my_inject(2){|total,item| total*item}
+p [1,5,8,7,5,2].my_inject(0){|total,item| total+item}
