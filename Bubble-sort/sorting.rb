@@ -4,14 +4,12 @@ def bubble_sort(a)
         ch=false
         (a.length-1).times do |i|
         if (a[i]>a[i+1])
-            tmp=a[i]
-            a[i]=a[i+1]
-            a[i+1]=tmp 
+            a[i],a[i+1]=a[i+1],a[i]
             ch=true 
         end 
         end
     end 
-    p a
+    a
 end
 
 #print bubble_sort([1,8,9,7,2,5,0,20,3])
@@ -35,7 +33,7 @@ def bubble_sort_by (a)
         bubble_sort(a)
     end
     
-    p a
+    a
 end
 
 bubble_sort_by(["hi","hello","hey","bycicle","o"]) do |left,right|
