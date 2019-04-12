@@ -138,6 +138,7 @@ end
     
 end
 
+#multiply test
 def mulitply_els(a)
   a.my_inject(1){|total,item| total*item}
 end
