@@ -1,23 +1,21 @@
 #the module below contains self-made Enumerable methods that behaves like the original ones
 module Enumerable
   def my_each(*)
+    tmp=self.to_a
     for i in (0...self.length)
-      self[i].is_a?(Array) ? yield(self[i].key,self[i].value) :yield(i,self[i]) 
-      #yield self[i]
+      tmp[i].size>0 ? yield(tmp[i][0],tmp[i][1]) :yield(i,tmp[i]) 
     end
-    return self
+    return tmp
   end
 
   def my_each_with_index(*)
     i=0
     each do |element| 
-        
-      element.is_a?(Array) ? yield(i,element[0]) :yield(i,element) 
+      yield(element,i) 
       i+=1  
-
     end
-     
   end
+  #my select
   def my_select(*)
     kr=[]
     my_each do |element| 
@@ -26,6 +24,7 @@ module Enumerable
     end
     return kr    
   end 
+  #my all
   def my_all(*)
     res=true
     if block_given?
@@ -46,6 +45,8 @@ module Enumerable
     end
      res     
   end
+
+  #my any?
   def my_any(*)
     res=false
     if block_given?
@@ -54,7 +55,7 @@ module Enumerable
           if d==true 
             res=true 
             break
-        end 
+          end 
       end
     else
       my_select do |element|
@@ -66,7 +67,7 @@ module Enumerable
     end
     res     
   end
-  
+  #my none
   def my_none(*)
     res=true 
     if block_given?
@@ -82,6 +83,7 @@ module Enumerable
     end
     return res     
   end
+  #my count
   def my_count(*)
     res=0
     if block_given?
@@ -97,7 +99,7 @@ module Enumerable
     
     return res
   end
-
+  #my map
   def my_map (a=[])
     res=[]
     tmp=self.to_a
@@ -145,7 +147,9 @@ end
 
 p [1,2,3,6].my_each {|x| x+1}
 [1,2,3,6].my_each_with_index {|x,item| p item}
-{"cat"=>0, "dog"=>1, "wombat"=>2}.my_each_with_index{|i,item| p item}
+{"cat"=>0, "dog"=>1, "wombat"=>2}.my_each{|i,item| puts "#{i} : #{item}"}
+{"cat"=>0, "dog"=>1, "wombat"=>2}.my_each_with_index{|val,index| puts "#{val} : #{index}"}
+=begin
 [1,2,3,6].my_select {|x| x<6}
 [1,5,3,9].my_none {|x| x>6}
 my_proc=Proc.new do |x| 
@@ -159,3 +163,4 @@ p hash.my_map {|key,value| {key=>value}}
 p [0,5,8,7,5,2].my_inject(0){|total,item| total+item}
 p hash.my_inject{|total,item| total+item}
 p mulitply_els([2,5,8])
+=end
