@@ -2,12 +2,21 @@
 module Enumerable
   def my_each(*)
     tmp = self.to_a
+    is_hash=tmp.is_a?(Hash)
     res=[]
-    for i in (0...tmp.length)
-      tmp[i].is_a?(Array) ? d = yield(tmp[i][0],tmp[i][-1]) : yield(i, tmp[i])
-      res << d if d.is_a?(Hash)
+    if is_hash
+      for i in (0...tmp.length)
+        d = yield(tmp[i][0],tmp[i][-1])
+        res << d if d.is_a?(Hash)
+      end
+      return res if res.size>0
+    else
+      for i in (0...tmp.length)
+       d = yield(tmp[i])
+       res << d
+      end
+      return res if res.size>0
     end
-    return res if res.size>0
     tmp
   end
 
@@ -30,10 +39,10 @@ module Enumerable
   end
 
   # my all
-  def my_all(*)
+  def my_all()
     res = true
     if block_given?
-      my_select do |element|
+      my_each do |element|
         d = yield element
         if d == false
           res = false
@@ -41,7 +50,7 @@ module Enumerable
         end
       end
     else
-      my_select do |element|
+      my_each do |element|
         if element.nil? || element == false
           res = false
           break
@@ -111,16 +120,16 @@ module Enumerable
   def my_map(a = [])
     res = []
     tmp = self.to_a
-    is_array= tmp[0].is_a?(Array) ? true : false 
+    is_array = tmp[0].is_a?(Array) ? true : false 
     if block_given?
       if is_array
         my_each do |key,value|
-        d=yield key, value
+        d = yield key, value
         res << d
         end
       else
         my_each do |item|
-          d=yield item
+          d = yield item
           res << d
         end
       end 
@@ -159,7 +168,7 @@ end
 def mulitply_els(a)
   a.my_inject(1) { |total, item| total * item }
 end
-
+=begin
 p [1, 2, 3, 6].my_each { |x| x + 1 }
 [1, 2, 3, 6].my_each_with_index { |_x, item| p item }
 { 'cat' => 0, 'dog' => 1, 'wombat' => 2 }.my_each { |i, item| puts "#{i} : #{item}" }
@@ -171,9 +180,16 @@ p [1, 2, 3, 6].my_each { |x| x + 1 }
 # end
  hash={"cat"=>0, "dog"=>1, "wombat"=>2}
 # p hash.class
-#p [1,5,3,8,5,7].my_map {|x| x+1}
+p [1,5,3,8,5,7].my_map{|x| x+1}
 # p [1,5,3,8,5,7].my_map(my_proc)
- p hash.my_map {|key,value| {key=>value}}
+# p hash.my_map {|key,value| {key=>value}}
 # p [0,5,8,7,5,2].my_inject(0){|total,item| total+item}
 # p hash.my_inject{|total,item| total+item}
 # p mulitply_els([2,5,8])
+=end
+
+
+p [1,3,5].my_map{|x| x+1}
+p [1,8,9,2,10].my_all{|x| x>0}
+p (1..20).to_a.my_select{|x| x > 10}
+#p [1,[8,9],2,10].my_all{|x| x>0}
