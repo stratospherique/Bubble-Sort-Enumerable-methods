@@ -168,28 +168,3 @@ end
 def mulitply_els(a)
   a.my_inject(1) { |total, item| total * item }
 end
-=begin
-p [1, 2, 3, 6].my_each { |x| x + 1 }
-[1, 2, 3, 6].my_each_with_index { |_x, item| p item }
-{ 'cat' => 0, 'dog' => 1, 'wombat' => 2 }.my_each { |i, item| puts "#{i} : #{item}" }
-{ 'cat' => 0, 'dog' => 1, 'wombat' => 2 }.my_each_with_index { |val, index| puts "#{val} : #{index}" }
-#p [1,2,3,6].my_select {|x| x<6}
-#p [1,5,3,9].my_none {|x| x>6}
-# my_proc=Proc.new do |x|
-#     x+1
-# end
- hash={"cat"=>0, "dog"=>1, "wombat"=>2}
-# p hash.class
-p [1,5,3,8,5,7].my_map{|x| x+1}
-# p [1,5,3,8,5,7].my_map(my_proc)
-# p hash.my_map {|key,value| {key=>value}}
-# p [0,5,8,7,5,2].my_inject(0){|total,item| total+item}
-# p hash.my_inject{|total,item| total+item}
-# p mulitply_els([2,5,8])
-=end
-
-
-p [1,3,5].my_map{|x| x+1}
-p [1,8,9,2,10].my_all{|x| x>0}
-p (1..20).to_a.my_select{|x| x > 10}
-#p [1,[8,9],2,10].my_all{|x| x>0}

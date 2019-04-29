@@ -28,7 +28,8 @@ describe Enumerable do
     end
 
     it "return an error if the passed array is not flattened" do
-      expect{[1,[8,9],2,10].my_all{|x| x>0}}.to raise_error
+      s = NoMethodError
+      expect{[1,[8,9],2,10].my_all{|x| x>0}}.to raise_error(s)
     end
   end
 
